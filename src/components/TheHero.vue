@@ -69,6 +69,7 @@
         autoplayInterval: null,
         autoplayDelay: 10000,
         isSmallScreen: false,
+        loading:true,
       };
     },
     async mounted() {
@@ -87,7 +88,7 @@
     try {
         const apiKey = process.env.VUE_APP_API_KEY;
         let allMovies = [];
-        const totalPages = 499
+        const totalPages = 499;
 
         // Boucle à travers les pages
         for (let page = 1; page <= totalPages; page++) {
@@ -96,8 +97,10 @@
             );
             const data = await response.json();
             if (data.results && data.results.length > 0) {
+                // Filtrer les films sans backdrop_path
+                const moviesWithBackdrop = data.results.filter(movie => movie.backdrop_path);
                 // Concaténer les résultats de cette page avec le tableau de tous les films
-                allMovies = [...allMovies, ...data.results];
+                allMovies = [...allMovies, ...moviesWithBackdrop];
             }
         }
 
