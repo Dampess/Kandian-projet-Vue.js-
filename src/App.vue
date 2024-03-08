@@ -6,6 +6,7 @@
     <router-link v-if="searchResults.length" :to="{ name: 'search-results', params: { query: searchQuery } }">
       Voir les résultats de la recherche
     </router-link>
+    
     <router-view />
 
     <TheFooter />
