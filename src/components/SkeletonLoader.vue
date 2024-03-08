@@ -1,11 +1,14 @@
 <template>
-  <div v-if="loading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-90 z-50">
-    <div>
-      <!-- Ajoutez une icône de sablier animée -->
-      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-400 shadow-lg mx-auto"></div>
-      <!-- Ajoutez du texte pour indiquer que le chargement est en cours -->
-      <p class="text-gray-600 text-lg mt-4">Chargement en cours...</p>
+  <div v-if="loading" class="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-800 bg-opacity-90 flex flex-col z-50">
+    <div class="w-32 h-32 relative center">
+      <div class="personnage">
+        <div class="corps"></div>
+        <div class="jambe jambe-gauche"></div>
+        <div class="jambe jambe-droite"></div>
+      </div>
     </div>
+    <!-- Ajoutez du texte pour indiquer que le chargement est en cours -->
+    <p class="text-gray-600 text-lg mt-4">Chargement en cours...</p>
   </div>
 </template>
 
@@ -22,13 +25,47 @@ export default {
 </script>
 
 <style scoped>
-/* Style pour l'animation de rotation */
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.personnage {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
 }
-/* Appliquer l'animation aux éléments avec la classe "animate-spin" */
-.animate-spin {
-  animation: spin 1s linear infinite;
+
+.corps {
+  width: 20px;
+  height: 30px;
+  background-color: #000;
+  border-radius: 10px 10px 0 0;
+}
+
+.jambe {
+  width: 6px;
+  height: 20px;
+  background-color: #000;
+  position: absolute;
+  bottom: 0;
+}
+
+.jambe-gauche {
+  left: -8px;
+  transform-origin: bottom;
+  animation: marche-gauche 0.5s infinite alternate;
+}
+
+.jambe-droite {
+  right: -8px;
+  transform-origin: bottom;
+  animation: marche-droite 0.5s infinite alternate;
+}
+
+@keyframes marche-gauche {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-10deg); }
+}
+
+@keyframes marche-droite {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(10deg); }
 }
 </style>

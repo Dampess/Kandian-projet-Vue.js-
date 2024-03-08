@@ -12,8 +12,9 @@
         :movie="false" :films="popularSeries" />
       <TheCarousel class="text-2xl ml-8 mb-4" :class="{ 'ml-2 mr-6': isSmallScreen }" titreCat="Films Populaires"
         :movie="true" :films="popularMovies" />
-      <h2 class="text-3xl font-bold mt-6 mb-6 ml-2">Les Dernières Sorties</h2>
       <ThePub class="w-11/12 mx-auto h-64" :class="{ 'hidden': isSmallScreen }" :films="latestMovies" :movie="true" />
+      <h2 class="text-3xl font-bold mt-6 mb-6 ml-2">Les Dernières Sorties</h2>
+
       <TheCarousel class="text-2xl ml-8 mb-4" :class="{ 'ml-2 mr-6': isSmallScreen }" titreCat="Films Déjà Chez Nous"
         :movie="true" :films="latestMovies" />
       <TheCarousel class="text-2xl ml-8 mb-4" :class="{ 'ml-2 mr-6': isSmallScreen }"
