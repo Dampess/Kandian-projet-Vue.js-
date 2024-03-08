@@ -1,5 +1,5 @@
 <template>
-  <div id="app"  class="text-white" :class="{ 'w-9/12 mx-auto':isXLargeScreen, 'w-7/12 mx-auto':isXXLargeScreen}" >
+  <div  class="text-white" :class="{ 'w-9/12 mx-auto':isXLargeScreen, 'w-7/12 mx-auto':isXXLargeScreen}" >
     <router-view />
     <SkeletonLoader :loading="loading" />
     <TheHero />
