@@ -4,7 +4,7 @@
     <swiper :modules="modules" :slidesPerGroup="1" :breakpoints="screenSize" navigation
       :pagination="{ clickable: true }" @swiper="onSwiper" @slideChange="onSlideChange" :loop="false"
       :autoplay="{ delay: 9000 }" class="relative flex flox-row ml-2 h-full">
-      <swiper-slide class=" hover:border rounded-lg mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms"
+      <swiper-slide class="rounded-lg overflow-hidden shadow-lg hover:shadow-md transition duration-300 hover:border mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms"
         :key="index">
         <img v-if="movie" class="rounded-lg w-72 h-96 object-cover" :class="{ 'h-44 w-auto': isSmallScreen }"
           :src="`https://image.tmdb.org/t/p/w500/${film.poster_path}`" :alt="`Affiche de ${film.title}`">
