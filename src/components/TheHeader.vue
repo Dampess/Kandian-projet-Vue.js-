@@ -2,7 +2,7 @@
   <header class="py-3 px-4 flex justify-between items-center bg-gray-900" :class="{ 'flex flex-col': smallScreen }">
     <div class="flex items-center" :class="{'mr-8':smallScreen}">
       <img src="../assets/logo.png" alt="logo Kàndiǎn" class="w-24">
-      <h1 class="text-5xl font-bold ml-2">Kàndiǎn</h1>
+      <h1 class="text-5xl font-bold ml-2 font-pacifico">Kàndiǎn</h1>
     </div>
 
     <nav>
