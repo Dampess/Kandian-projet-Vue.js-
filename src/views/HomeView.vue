@@ -78,6 +78,7 @@ export default {
       // Récupérer les dernières séries sorties
       const responseLatestSeries = await fetch(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=fr`);
       const latestSeries = await responseLatestSeries.json();
+      latestSeries.results = latestSeries.results.filter(item => item.backdrop_path !== null);
       this.latestSeries = latestSeries.results;
 
       // Récupérer les films les mieux notés
@@ -89,6 +90,7 @@ export default {
       const responseTopRatedSeries = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=fr`);
       const topRatedSeries = await responseTopRatedSeries.json();
       this.topRatedSeries = topRatedSeries.results;
+      
 
       //Récupérer les films bientôt de sortie
       const responseUpComingMovies = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=fr-FR&page=1`);

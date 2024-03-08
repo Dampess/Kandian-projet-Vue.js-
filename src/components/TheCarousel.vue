@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto mt-2">
     <h2 class="mb-4">{{ titreCat }}</h2>
-    <swiper :modules="modules" :slides-per-view="isSmallScreen ? 4: isLargeScreen ? 6 : 5" :slides-per-group="isSmallScreen ? 3: isLargeScreen ? 5: 4" navigation
+    <swiper :modules="modules" :slidesPerGroup="1" :breakpoints="screenSize" navigation
       :pagination="{ clickable: true }" @swiper="onSwiper" @slideChange="onSlideChange" :loop="false"
       :autoplay="{ delay: 9000 }" class="relative flex flox-row ml-2 h-full">
       <swiper-slide class="mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms" :key="index">
@@ -54,8 +54,23 @@ export default {
       selectedFilm: null,
       isModalOpen: false,
       genres: {},
-      isSmallScreen: false,
-      isLargeScreen:false,
+      screenSize:{
+    '480': {
+        slidesPerView: 3,
+        slidesPerGroup: 2
+    },
+    '768': {
+        slidesPerView: 5,
+        slidesPerGroup: 4
+    },
+    '1024': {
+        slidesPerView: 5,
+        slidesPerGroup: 4
+    },
+    '1201': {
+        slidesPerView: 6,
+        slidesPerGroup: 5
+    }}
     };
   },
   computed: {
@@ -97,10 +112,6 @@ export default {
       } catch (error) {
         console.error('Error fetching genres:', error);
       }
-    },
-    checkScreenSize() {
-      this.isSmallScreen = window.innerWidth <= 763;
-      this.isLargeScreen = window.innerWidth >= 1600;
     },
   },
   setup() {
