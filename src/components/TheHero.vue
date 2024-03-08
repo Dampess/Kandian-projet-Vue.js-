@@ -83,25 +83,35 @@
     },
   
     methods: {
-      async fetchMovies() {
-        try {
-          const apiKey = process.env.VUE_APP_API_KEY;
-          const response = await fetch(
-            `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`
-          );
-          const data = await response.json();
-          if (data.results && data.results.length > 0) {
-            // Obtenir un tableau aléatoire de 15 indices uniques
-            const randomIndexes = Array.from({ length: 15 }, () =>
-              Math.floor(Math.random() * data.results.length)
+        async fetchMovies() {
+    try {
+        const apiKey = process.env.VUE_APP_API_KEY;
+        let allMovies = [];
+        const totalPages = 499
+
+        // Boucle à travers les pages
+        for (let page = 1; page <= totalPages; page++) {
+            const response = await fetch(
+                `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
             );
-            // Sélectionner les films correspondant aux indices aléatoires
-            this.movies = randomIndexes.map(index => data.results[index]);
-          }
-        } catch (error) {
-          console.error('Error fetching movies:', error);
+            const data = await response.json();
+            if (data.results && data.results.length > 0) {
+                // Concaténer les résultats de cette page avec le tableau de tous les films
+                allMovies = [...allMovies, ...data.results];
+            }
         }
-      },
+
+        // Sélectionner un tableau aléatoire de 15 indices uniques parmi tous les films
+        const randomIndexes = Array.from({ length: 15 }, () =>
+            Math.floor(Math.random() * allMovies.length)
+        );
+        // Sélectionner les films correspondant aux indices aléatoires
+        this.movies = randomIndexes.map(index => allMovies[index]);
+    } catch (error) {
+        console.error('Error fetching movies:', error);
+    }
+},
+
   
       nextSlide() {
         this.activeIndex = (this.activeIndex + 1) % this.movies.length;

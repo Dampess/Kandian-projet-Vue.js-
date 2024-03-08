@@ -63,16 +63,28 @@ export default {
         slidesPerGroup: 2
     },
     '768': {
-        slidesPerView: 5,
-        slidesPerGroup: 4
+        slidesPerView: 4,
+        slidesPerGroup: 3
     },
     '1024': {
+        slidesPerView: 4,
+        slidesPerGroup: 3
+    },
+    '1201': {
         slidesPerView: 5,
         slidesPerGroup: 4
     },
-    '1201': {
-        slidesPerView: 6,
-        slidesPerGroup: 5
+    '1800':{
+      slidesPerView:6,
+      slidesPerGroup:5
+    },
+    '2200':{
+      slidesPerView:7,
+      slidesPerGroup:6
+    },
+    '2600':{
+      slidesPerView:8,
+      slidesPerGroup:7
     }}
     };
   },
