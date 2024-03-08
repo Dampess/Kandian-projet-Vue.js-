@@ -4,15 +4,16 @@
     <swiper :modules="modules" :slidesPerGroup="1" :breakpoints="screenSize" navigation
       :pagination="{ clickable: true }" @swiper="onSwiper" @slideChange="onSlideChange" :loop="false"
       :autoplay="{ delay: 9000 }" class="relative flex flox-row ml-2 h-full">
-      <swiper-slide class="mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms" :key="index">
-        <img v-if="movie" class="w-72 h-96 object-cover" :class="{'h-44 w-auto': isSmallScreen}"
+      <swiper-slide class=" hover:border rounded-lg mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms" :key="index">
+        <img v-if="movie" class="rounded-lg w-72 h-96 object-cover" :class="{'h-44 w-auto': isSmallScreen}"
           :src="`https://image.tmdb.org/t/p/w500/${film.poster_path}`" :alt="`Affiche de ${film.title}`">
-        <img v-else class="w-full h-40 object-cover" :class="{'h-28': isSmallScreen}"
+        <img v-else class="rounded-lg w-full h-40 object-cover" :class="{'h-28': isSmallScreen}"
           :src="`https://image.tmdb.org/t/p/w500/${film.backdrop_path}`" :alt="`Affiche de ${film.name}`">
         <div class="absolute inset-0 flex justify-center items-center bg-black opacity-0 transition-opacity duration-300 hover:opacity-50"
           @click="showModal(film)">
           <p class="text-white text-xl font-bold cursor-pointer">{{ movie ? film.title : film.name }}</p>
         </div>
+        
       </swiper-slide>
     </swiper>
     <!-- TheModal -->
@@ -54,6 +55,8 @@ export default {
       selectedFilm: null,
       isModalOpen: false,
       genres: {},
+      isSmallScreen:false,
+      isLargeScreen:false,
       screenSize:{
     '480': {
         slidesPerView: 3,
@@ -113,6 +116,12 @@ export default {
         console.error('Error fetching genres:', error);
       }
     },
+    checkScreenSize() {
+      this.isSmallScreen = window.innerWidth <=763
+      this.isLargeScreen = window.innerWidth >= 1600;
+      
+    },
+
   },
   setup() {
     return {

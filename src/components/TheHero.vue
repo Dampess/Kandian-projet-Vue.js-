@@ -2,14 +2,14 @@
     <div class="relative w-full mx-auto">
         <div class="relative" @mouseover="showCaption = true" @mouseleave="showCaption = false">
             <div v-if="movies.length > 0" class="relative w-full overflow-hidden">
-                <div v-for="(movie, index) in movies" :key="index" class="hidden h-80 rounded overflow-hidden"
+                <div v-for="(movie, index) in movies" :key="index" class="hidden h-80 rounded overflow-hidden container"
                     :class="{ 'active': index === activeIndex,'h-full':isSmallScreen }">
-                    <img class="w-full rounded-lg" :src="'https://image.tmdb.org/t/p/original/' + movie.backdrop_path"
+                    <img class="w-max rounded-lg object-center aspect-video object-cover" :src="'https://image.tmdb.org/t/p/original/' + movie.backdrop_path"
                         :alt="movie.title">
                     <div class="absolute inset-x-0 bottom-0 p-4 bg-black text-white rounded-b-lg opacity-0 transition-opacity duration-300 w-11/12 mx-auto"
                         :class="{ 'visible': showCaption,'h-full':isSmallScreen }">
                         <h5 class="text-lg mb-2">{{ movie.title }}</h5>
-                        <p class="text-base mb-0">{{ movie.overview }}</p>
+                        <p class="text-base mb-0 pb-2">{{ movie.overview }}</p>
                     </div>
                 </div>
             </div>

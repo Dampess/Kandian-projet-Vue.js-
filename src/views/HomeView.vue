@@ -63,17 +63,21 @@ export default {
       // //Récupérer les films populaires
       const responseMovies = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=fr`);
       const films = await responseMovies.json();
+      films.results = films.results.filter(item => item.poster_path !== null);
       this.popularMovies = films.results;
 
       // Récupérer les séries populaires
       const responseSeries = await fetch(`https://api.themoviedb.org/3/tv/popular?api_key=${apiKey}&language=fr`);
       const series = await responseSeries.json();
+      series.results = series.results.filter(item => item.backdrop_path !== null);
       this.popularSeries = series.results;
 
       // Récupérer les derniers films sortis
       const responseLatestMovies = await fetch(`https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}&language=fr`);
       const latestMovies = await responseLatestMovies.json();
+      latestMovies.results = latestMovies.results.filter(item => item.poster_path !== null);
       this.latestMovies = latestMovies.results;
+  
 
       // Récupérer les dernières séries sorties
       const responseLatestSeries = await fetch(`https://api.themoviedb.org/3/tv/on_the_air?api_key=${apiKey}&language=fr`);
@@ -84,17 +88,22 @@ export default {
       // Récupérer les films les mieux notés
       const responseTopRatedMovies = await fetch(`https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}&language=fr`);
       const topRatedMovies = await responseTopRatedMovies.json();
+      topRatedMovies.results = topRatedMovies.results.filter(item => item.poster_path !== null);
       this.topRatedMovies = topRatedMovies.results;
+      
 
       // Récupérer les séries les mieux notées
       const responseTopRatedSeries = await fetch(`https://api.themoviedb.org/3/tv/top_rated?api_key=${apiKey}&language=fr`);
       const topRatedSeries = await responseTopRatedSeries.json();
+      topRatedSeries.results = topRatedSeries.results.filter(item => item.backdrop_path !== null);
       this.topRatedSeries = topRatedSeries.results;
+      
       
 
       //Récupérer les films bientôt de sortie
       const responseUpComingMovies = await fetch(`https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}&language=fr-FR&page=1`);
       const upComingMovies = await responseUpComingMovies.json();
+      upComingMovies.results = upComingMovies.results.filter(item => item.poster_path !== null);
       this.upComingMovies = upComingMovies.results;
 
       this.loading = false;
