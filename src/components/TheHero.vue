@@ -154,7 +154,4 @@ export default {
 
 }
 
-@media screen {
-  
-}
 </style>

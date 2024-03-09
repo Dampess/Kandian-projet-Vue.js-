@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto mt-2">
     <h2 class="mb-4">{{ titreCat }}</h2>
-    <swiper :modules="modules" :slidesPerGroup="1" :breakpoints="screenSize" navigation
+    <swiper :modules="modules"  :breakpoints="screenSize" navigation
       :pagination="{ clickable: true }" @swiper="onSwiper" @slideChange="onSlideChange" :loop="false"
       :autoplay="{ delay: 9000 }" class="relative flex flox-row ml-2 h-full">
       <swiper-slide class="rounded-lg overflow-hidden shadow-lg hover:shadow-md transition duration-300 hover:border mx-1 h-48 relative flex" v-for="(film, index) in filteredFilms"
@@ -67,6 +67,10 @@ export default {
       showPrev: false,
       showNext: false,
       screenSize: {
+        '300':{
+          slidesPerView: 2,
+          slidesPerGroup: 1
+        },
         '480': {
           slidesPerView: 3,
           slidesPerGroup: 2
