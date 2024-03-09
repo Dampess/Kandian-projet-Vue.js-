@@ -14,7 +14,7 @@
       <li v-for="(genre, index) in genres" :key="index" v-show="selectedGenre === genre.id" class="mb-8">
         <h2 class="text-2xl text-gray-900 font-semibold mb-4 ml-8 text-gray-900">{{ genre.name }}</h2>
         <ul class="grid grid-cols-4 gap-2 ml-1 mr-1" :class="{ 'grid-cols-2': isSmallScreen }">
-          <li v-for="series in filteredSeries(genre.series)" :key="series.id"
+          <li v-for="series in genre.series" :key="series.id"
             class="flex flex-col items-center rounded-lg shadow-lg p-2 hover:bg-gray-500 transition duration-300 ease-in-out relative">
             <img :src="'https://image.tmdb.org/t/p/w500/' + series.backdrop_path" :alt="series.name"
               class="series-poster rounded-lg cursor-pointer" @click="showSeriesDetails(series)">
@@ -67,12 +67,11 @@ export default {
 
         if (data.genres && data.genres.length > 0) {
           for (const genre of data.genres) {
-            const seriesResponse = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=fr&with_genres=${genre.id}`);
-            const seriesData = await seriesResponse.json();
+            const seriesResponse = await this.fetchSeriesForGenre(genre.id, apiKey);
             this.genres.push({
               id: genre.id,
               name: genre.name,
-              series: seriesData.results
+              series: seriesResponse
             });
           }
           if (this.genres.length > 0) {
@@ -84,6 +83,22 @@ export default {
         console.error('Erreur lors de la récupération des genres et des séries associées :', error);
       }
     },
+    async fetchSeriesForGenre(genreId, apiKey) {
+      const seriesData = [];
+      // Récupérer les 50 premières pages de séries pour le genre donné
+      for (let page = 1; page <= 10; page++) {
+        const seriesResponse = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=fr&with_genres=${genreId}&page=${page}`);
+        const seriesDataPage = await seriesResponse.json();
+        // Si aucune donnée n'est retournée pour la page actuelle, sortez de la boucle
+        if (!seriesDataPage.results || seriesDataPage.results.length === 0) break;
+        // Filtrer les séries qui ont un backdrop_path
+        const filteredSeries = seriesDataPage.results.filter(series => series.backdrop_path);
+        // Ajoutez les séries filtrées de la page actuelle à la liste de séries du genre
+        seriesData.push(...filteredSeries);
+      }
+      return seriesData;
+    },
+
     showSeriesDetails(series) {
       this.selectedSeries = series;
       this.isModalOpen = true;

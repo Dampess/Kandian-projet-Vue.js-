@@ -13,7 +13,7 @@
         <ul class="grid grid-cols-1 gap-4">
             <li v-for="(genre, index) in genres" :key="index" v-show="selectedGenre === genre.id" class="mb-8">
                 <h2 class="text-2xl text-gray-900 font-semibold mb-4 ml-8">{{ genre.name }}</h2>
-                <ul class="grid grid-cols-4 gap-2 ml-1 mr-1" :class="{'grid-cols-2':isSmallScreen}">
+                <ul class="grid grid-cols-4 gap-2 ml-1 mr-1" :class="{ 'grid-cols-2': isSmallScreen }">
                     <li v-for="movie in filteredMovies(genre.movies)" :key="movie.id"
                         class="flex flex-col items-center rounded-lg shadow-lg p-2 hover:bg-gray-500 transition duration-300 ease-in-out relative">
                         <img v-if="movie.backdrop_path" :src="'https://image.tmdb.org/t/p/w500/' + movie.backdrop_path"
@@ -58,25 +58,35 @@ export default {
         async fetchGenres() {
             try {
                 const apiKey = process.env.VUE_APP_API_KEY;
-                const response = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr`);
-                const data = await response.json();
+                const genresResponse = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr`);
+                const genresData = await genresResponse.json();
 
                 // Vérifiez si la réponse contient des genres
-                if (data.genres && data.genres.length > 0) {
+                if (genresData.genres && genresData.genres.length > 0) {
                     // Pour chaque genre, récupérez les films associés
-                    for (const genre of data.genres) {
-                        const moviesResponse = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&with_genres=${genre.id}`);
-                        const moviesData = await moviesResponse.json();
+                    for (const genre of genresData.genres) {
+                        const genreMovies = [];
+                        // Récupérer les 50 premières pages de films pour chaque genre
+                        for (let page = 1; page <= 10; page++) {
+                            const moviesResponse = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&with_genres=${genre.id}&page=${page}`);
+                            const moviesData = await moviesResponse.json();
+                            // Si aucune donnée n'est retournée pour la page actuelle, sortez de la boucle
+                            if (!moviesData.results || moviesData.results.length === 0) break;
+                            // Filtrer les films qui ont un backdrop_path
+                            const filteredMovies = moviesData.results.filter(movie => movie.backdrop_path !== null);
+                            // Ajoutez les films filtrés de la page actuelle à la liste de films du genre
+                            genreMovies.push(...filteredMovies);
+                        }
+                        // Ajoutez le genre avec la liste complète de films récupérée
                         this.genres.push({
                             id: genre.id,
                             name: genre.name,
-                            movies: moviesData.results
+                            movies: genreMovies
                         });
                     }
                     // Sélectionner le premier genre par défaut
                     if (this.genres.length > 0) {
                         this.selectedGenre = this.genres[0].id;
-                        
                     }
                     this.loading = false;
                 }
@@ -84,6 +94,7 @@ export default {
                 console.error('Erreur lors de la récupération des genres et des films associés :', error);
             }
         },
+
         showModal(movie) {
             this.selectedMovie = movie;
             this.isModalOpen = true;
