@@ -13,18 +13,17 @@
         </svg>
       </button> <!-- Bouton de fermeture -->
       <div class="p-8 max-h-full">
-        <div class="flex flex-col md:flex-row items-start ">
+        <div class="flex flex-col md:flex-row items-start">
           <img v-if="movie" :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" :alt="movie.title"
             class="rounded-md mb-4 mr-10 w-full md:w-60 h-auto object-cover">
           <div class="flex flex-col md:flex-grow">
             <h1 class="text-3xl font-semibold mb-2">{{ getTitle }}</h1>
             <p class="text-lg mb-2">{{ getReleaseYear }}</p>
-            <!-- <div class="genres">
-              <p class="font-semibold">Genres :</p>
-              <ul class="pl-5">
-                <li v-for="genre in genres" :key="genre.id" class="text-gray-700">{{ genre.name }}</li>
-              </ul>
-            </div> -->
+
+            <div class="rating">
+              <p class="font-semibold">Note des utilisateurs :</p>
+              <p :class="userRatingClass">{{ userRating }}/10</p>
+            </div>
             <div class="overview mt-6">
               <h2 class="text-2xl font-semibold mb-2">Description :</h2>
               <p class="text-lg">{{ overview }}</p>
@@ -51,7 +50,11 @@ export default {
     isModalOpen: {
       type: Boolean,
       required: true,
-    }
+    },
+    genresList: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     getTitle() {
@@ -63,9 +66,23 @@ export default {
     overview() {
       return this.movie ? this.movie.overview : this.series ? this.series.overview : '';
     },
-    genres() {
-      return this.movie ? this.movie.genres : this.series ? this.series.genres : [];
+
+    userRating() {
+      return this.movie ? this.movie.vote_average : this.series ? this.series.vote_average : '';
+    },
+
+    userRatingClass() {
+      const rating = parseFloat(this.userRating);
+      if (rating >= 7.5) {
+        return 'text-green-500'; // classe pour une bonne note
+      } else if (rating >= 5) {
+        return 'text-yellow-500'; // classe pour une note moyenne
+      } else {
+        return 'text-red-500'; // classe pour une mauvaise note
+      }
     }
+
+
   },
   methods: {
     getMovieReleaseYear(releaseDate) {

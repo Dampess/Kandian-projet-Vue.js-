@@ -21,9 +21,9 @@
         titreCat="Séries Fraichement Sorties" :movie="false" :films="latestSeries" />
       <h2 class="text-3xl font-bold mt-6 mb-6 ml-2">Les Mieux Notés</h2>
       <TheCarousel class="text-2xl ml-8 mb-4" :class="{ 'ml-2 mr-6': isSmallScreen }" titreCat="Les Films Qui Plaisent"
-        :movie="true" :films="latestMovies" />
+        :movie="true" :films="topRatedMovies" />
       <TheCarousel class="text-2xl ml-8 mb-4" :class="{ 'ml-2 mr-6': isSmallScreen }" titreCat="Les Séries Au Top"
-        :movie="false" :films="latestSeries" />
+        :movie="false" :films="topRatedSeries" />
     </main>
   </div>
 </template>

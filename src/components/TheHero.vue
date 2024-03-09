@@ -14,15 +14,15 @@
           </div>
         </div>
       </div>
-      <div :class="{ 'hidden': isSmallScreen }">
-        <button @click="prevSlide"
+      <div >
+        <button @click="prevSlide" :class="{ 'hidden': isSmallScreen }"
           class="absolute flex justify-center items-center top-1/2 transform -translate-y-1/2 z-10 bg-transparent border-none cursor-pointer left-5"
           type="button">
           <span class="carousel-control-prev-icon w-8 h-8 rounded-full flex justify-center items-center"
             aria-hidden="true"></span>
           <span class="visually-hidden"></span>
         </button>
-        <button @click="nextSlide"
+        <button @click="nextSlide" :class="{ 'hidden': isSmallScreen }"
           class="absolute flex justify-center items-center top-1/2 transform -translate-y-1/2 z-10 bg-transparent border-none cursor-pointer right-5 rotate-180"
           type="button">
           <span class="carousel-control-next-icon w-8 h-8 rounded-full flex justify-center items-center"
@@ -69,12 +69,12 @@ export default {
       try {
         const apiKey = process.env.VUE_APP_API_KEY;
         let allMovies = [];
-        const totalPages = 300;
+        const totalPages = 100;
 
         // Boucle à travers les pages
         for (let page = 1; page <= totalPages; page++) {
           const response = await fetch(
-            `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
+            `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}`
           );
           const data = await response.json();
           if (data.results && data.results.length > 0) {
@@ -152,5 +152,9 @@ export default {
 .pagination-dot.active {
   transform: scale(0.9);
 
+}
+
+@media screen {
+  
 }
 </style>
