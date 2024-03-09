@@ -3,8 +3,8 @@
     <SkeletonLoader :loading="loading" />
     <!-- Contenu principal -->
     <h1 class="text-3xl font-bold mb-8">Résultats de la recherche pour "{{ $route.query.q }}"</h1>
-    <ul class="grid grid-cols-5 gap-2 ml-1 mr-1" :class="{'grid-cols-2':isSmallScreen}">
-      <li v-for="result in searchResults" :key="result.id"
+    <ul class="affichage grid grid-cols-5 gap-2 ml-1 mr-1" :class="{'grid-cols-2': isSmallScreen}">
+      <li v-for="result in filteredResults" :key="result.id"
         class="flex flex-col items-center p-4 rounded-md shadow-md transition duration-300 hover:shadow-lg">
         <div class="w-full text-center">
           <div class="flex justify-center items-center">
@@ -56,6 +56,11 @@ export default {
       this.fetchSearchResults(this.$route.query.q);
     }
   },
+  computed: {
+    filteredResults() {
+      return this.searchResults.filter(result => result.poster_path);
+    }
+  },
   methods: {
     async fetchSearchResults(query) {
       try {
@@ -87,8 +92,16 @@ export default {
       this.isModalOpen = false;
     },
     checkScreenSize() {
-      this.isSmallScreen = window.innerWidth <=763
+      this.isSmallScreen = window.innerWidth <= 763;
     },
   },
 };
 </script>
+
+<style>
+@media (max-width: 763px) {
+  .affichage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+</style>

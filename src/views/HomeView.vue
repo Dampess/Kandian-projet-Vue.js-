@@ -85,7 +85,7 @@ export default {
     async fetchCategoryData(apiKey, category, dataContainer, totalPages) {
       let allCategoryData = [];
       for (let page = 1; page <= totalPages; page++) {
-        const response = await fetch(`https://api.themoviedb.org/3/${category}?api_key=${apiKey}&language=fr&page=${page}`);
+        const response = await fetch(`https://api.themoviedb.org/3/${category}?api_key=${apiKey}&language=fr&adult=false&page=${page}`);
         const categoryData = await response.json();
         allCategoryData = [...allCategoryData, ...categoryData.results];
       }

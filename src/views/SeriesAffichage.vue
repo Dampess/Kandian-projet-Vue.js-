@@ -84,7 +84,7 @@ export default {
     },
     async fetchSeriesForGenre(genreId, apiKey) {
       const seriesData = [];
-      for (let page = 1; page <= 30; page++) {
+      for (let page = 1; page <= 40; page++) {
         const seriesResponse = await fetch(`https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&language=fr&with_genres=${genreId}&page=${page}`);
         const seriesDataPage = await seriesResponse.json();
         if (!seriesDataPage.results || seriesDataPage.results.length === 0) break;

@@ -60,14 +60,14 @@ export default {
         async fetchGenres() {
             try {
                 const apiKey = process.env.VUE_APP_API_KEY;
-                const genresResponse = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr`);
+                const genresResponse = await fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=fr&adult=false`);
                 const genresData = await genresResponse.json();
 
                 if (genresData.genres && genresData.genres.length > 0) {
                     const genrePromises = genresData.genres.map(async genre => {
                         const genreMovies = [];
-                        for (let page = 1; page <= 30; page++) {
-                            const moviesResponse = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&with_genres=${genre.id}&page=${page}`);
+                        for (let page = 1; page <= 40; page++) {
+                            const moviesResponse = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=fr&adult=false&with_genres=${genre.id}&page=${page}`);
                             const moviesData = await moviesResponse.json();
                             if (!moviesData.results || moviesData.results.length === 0) break;
                             const filteredMovies = moviesData.results.filter(movie => movie.backdrop_path !== null);

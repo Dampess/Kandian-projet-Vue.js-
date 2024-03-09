@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="bg-gradient-to-b from-gray-900 via-blue-900 to-blue-800 text-white">
 
-    <TheHeader />
+    <TheHeader class="z-60" />
     
     <router-link v-if="searchResults.length" :to="{ name: 'search-results', params: { query: searchQuery } }">
       Voir les résultats de la recherche
@@ -9,7 +9,7 @@
     
     <router-view />
 
-    <TheFooter />
+    <TheFooter class="z-60" />
   </div>
 </template>
 

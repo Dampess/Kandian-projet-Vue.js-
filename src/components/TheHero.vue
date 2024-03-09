@@ -29,7 +29,7 @@
             aria-hidden="true"></span>
           <span class="visually-hidden"></span>
         </button>
-        <div class="absolute bottom-2 right-16 flex justify-center items-center ml-26">
+        <div class="affichageRes absolute bottom-2 right-16 flex justify-center items-center ml-26">
           <span v-for="(movie, index) in movies" :key="index"
             class="pagination-dot w-5 h-2 bg-white rounded-full m-0 mx-1 cursor-pointer"
             :class="{ 'active bg-gradient-to-l from-gray-900 via-blue-900 to-blue-800': index === activeIndex }"
@@ -152,6 +152,13 @@ export default {
 .pagination-dot.active {
   transform: scale(0.9);
 
+}
+
+@media (max-width: 763px) {
+  .affichageRes{
+    right: 10%;
+    left: 10%;
+  }
 }
 
 </style>
